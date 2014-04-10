@@ -1,7 +1,8 @@
 var util = require('./lib/util'),
     config = require('./config'),
     express = require('express'),
-    async = require('async');
+    async = require('async'),
+    marked = require('marked');
 
 /**
  * Scroll Core Class
@@ -19,6 +20,9 @@ var Scroll = function(config) {
   this.put = this.app.put.bind(this.app);
   this.delete = this.app.delete.bind(this.app);
 
+  // set up the scroll body parsing
+  this.parse = config.parse || this.parse;
+
   // loads the controllers
   this.controllers = require('./controllers/controllers')(this);
 
@@ -31,6 +35,7 @@ var Scroll = function(config) {
 
 /**
  * Initializes the server.
+ * @memberof Scroll
  * @private
  */
 Scroll.prototype._setup = function() {
@@ -51,7 +56,8 @@ Scroll.prototype._setup = function() {
 };
 
 /**
- * Loads in the theme and sets up the theme configuration.
+ * Loads in the view layer and sets up the view configuration.
+ * @memberof Scroll
  * @private
  */
 Scroll.prototype._loadView = function() {
@@ -66,6 +72,14 @@ Scroll.prototype._loadView = function() {
       this.config.view[p] = view[p];
     }
   }
+};
+
+/**
+ * Parses a scroll's content. Defaults to markdown parsing.
+ * @param content {string} - The text to parse.
+ */
+Scroll.prototype.parse = function(content) {
+  return marked(content);
 };
 
 /**

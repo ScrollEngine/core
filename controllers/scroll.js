@@ -2,7 +2,7 @@
  * Loads the scroll object controller
  * @param model - The scroll object data model
  */
-module.exports = function(model) {
+module.exports = function(model, parse) {
 
   /**
    * Gets a scroll based a type and slug.
@@ -21,7 +21,11 @@ module.exports = function(model) {
         return callback(null, null);
       }
 
-      callback(null, scrolls[0]);
+      var scroll = scrolls[0];
+      scroll.raw = scroll.body;
+      scroll.body = parse(scroll.body);
+
+      callback(null, scroll);
     });
   };
 

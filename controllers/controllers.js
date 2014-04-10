@@ -6,7 +6,7 @@ module.exports = function(app) {
   var controllers = {},
       models = require('./data')(app);
 
-  controllers.scroll = require('./scroll')(models.scroll);
+  controllers.scroll = require('./scroll')(models.scroll, app.parse);
 
   // return the loaded controllers
   return controllers;
