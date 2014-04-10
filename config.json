@@ -1,0 +1,7 @@
+{
+  "view": "scroll-view-basic",
+  "model": {
+    "module": "scroll-model-memory",
+    "connection":""
+  }
+}

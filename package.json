@@ -1,0 +1,23 @@
+{
+  "name": "scroll-core",
+  "version": "0.0.1",
+  "description": "Simple CMS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/scrollcms/core.git"
+  },
+  "author": "Scroll Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scrollcms/core/issues"
+  },
+  "homepage": "https://github.com/scrollcms/core",
+  "dependencies": {
+    "express": "^3.5.1",
+    "async": "^0.6.2"
+  }
+}
