@@ -53,6 +53,9 @@ Scroll.prototype._setup = function() {
     './views',             // application
     view.path + '/views', // theme
   ]);
+
+  // add the server routes
+  require('./routes/routes')(this);
 };
 
 /**
@@ -90,17 +93,6 @@ Scroll.prototype.parse = function(content) {
  * started.
  */
 Scroll.prototype.start = function(port, callback) {
-  // add the server routes
-  this.get('/', function(req, res) {
-    res.send('Home Page');
-  });
-
-  this.get('/post/:slug', function(req, res) {
-    this.controllers.scroll.get('post', req.params.slug, function(err, scroll) {
-      res.render('post', {post:scroll});
-    });
-  }.bind(this));
-
   this.app.listen(port, null, null, callback);
 };
 
