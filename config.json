@@ -1,6 +1,7 @@
 {
   "view": "scroll-view-basic",
   "views": {
+    "index": {},
     "post": {
       "view":"post"
     },
