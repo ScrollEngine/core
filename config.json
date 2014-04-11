@@ -1,5 +1,13 @@
 {
   "view": "scroll-view-basic",
+  "views": {
+    "post": {
+      "view":"post"
+    },
+    "page": {
+      "view":"page"
+    }
+  },
   "model": {
     "module": "scroll-model-memory",
     "connection":""
