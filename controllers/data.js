@@ -1,6 +1,6 @@
 /*
- * Data connection initialization
- * @param app - The scroll app instance
+ * Initializes the model/data layer.
+ * @param app - The Scroll app instance
  */
 module.exports = function(app) {
   // load the model layer module

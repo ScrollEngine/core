@@ -8,10 +8,10 @@ module.exports = function(model, parse) {
    * Gets a scroll based a type and slug.
    * @param type {string} - The type of scroll to retrieve.
    * @param slug {string} - The slug for the scroll to retrieve.
-   * @param callback {scrollGetCallback} - The callback that is called when
-   * a reponse is recieved.
+   * @param callback {scrollFindOneCallback} - The callback that is called
+   * when a reponse is recieved.
    */
-  var get = function(type, slug, callback) {
+  var findOne = function(type, slug, callback) {
     model.read({type:type,slug:slug}, function(err, scrolls) {
       if(err) {
         return callback(err, null);
@@ -26,6 +26,32 @@ module.exports = function(model, parse) {
       scroll.body = parse(scroll.body);
 
       callback(null, scroll);
+    });
+  };
+
+  /**
+   * Gets a set of scrolls limited by type and query options.
+   * @param type {string} - The type of scroll to retrieve.
+   * @param options {string} - The query options to use with the qurey.
+   * @param callback {scrollFindCallback} - The callback that is called when
+   * a reponse is recieved.
+   */
+  var find = function(type, options, callback) {
+    model.read({type:type}, options, function(err, scrolls) {
+      if(err) {
+        return callback(err, null);
+      }
+
+      if(scrolls.length === 0) {
+        return callback(null, []);
+      }
+
+      scrolls.forEach(function(scroll) {
+        scroll.raw = scroll.body;
+        scroll.body = parse(scroll.body);
+      });
+
+      callback(null, scrolls);
     });
   };
 
@@ -45,7 +71,8 @@ module.exports = function(model, parse) {
 
   // return the accessors
   return {
-    get: get,
+    findOne: findOne,
+    find: find,
     save: save
   };
 };
