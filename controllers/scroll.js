@@ -21,11 +21,7 @@ module.exports = function(model, parse) {
         return callback(null, null);
       }
 
-      var scroll = scrolls[0];
-      scroll.raw = scroll.body;
-      scroll.body = parse(scroll.body);
-
-      callback(null, scroll);
+      callback(null, parse(scrolls[0]));
     });
   };
 
@@ -47,8 +43,7 @@ module.exports = function(model, parse) {
       }
 
       scrolls.forEach(function(scroll) {
-        scroll.raw = scroll.body;
-        scroll.body = parse(scroll.body);
+        scroll = parse(scroll);
       });
 
       callback(null, scrolls);

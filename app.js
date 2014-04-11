@@ -78,8 +78,11 @@ Scroll.prototype._loadView = function() {
  * Parses a scroll's content. Defaults to markdown parsing.
  * @param content {string} - The text to parse.
  */
-Scroll.prototype.parse = function(content) {
-  return marked(content);
+Scroll.prototype.parse = function(scroll) {
+  scroll.raw = scroll.body;
+  scroll.body = marked(scroll.body);
+
+  return scroll;
 };
 
 /**
