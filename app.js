@@ -53,9 +53,6 @@ Scroll.prototype._setup = function() {
     './views',             // application
     view.path + '/views', // theme
   ]);
-
-  // add the server routes
-  require('./routes/routes')(this);
 };
 
 /**
@@ -93,6 +90,9 @@ Scroll.prototype.parse = function(content) {
  * started.
  */
 Scroll.prototype.start = function(port, callback) {
+  // add the server routes
+  require('./routes/routes')(this);
+
   this.app.listen(port, null, null, callback);
 };
 
