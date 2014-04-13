@@ -17,7 +17,7 @@ module.exports = function(app) {
   app.get('/:page', (config.page.handler || function(req, res) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
-        res.render(confg.page.view, {page:scroll});
+        res.render(config.page.view, {page:scroll});
       });
   }).bind(app));
 };
