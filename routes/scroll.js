@@ -20,4 +20,21 @@ module.exports = function(app) {
         res.render(config.page.view, {page:scroll});
       });
   }).bind(app));
+
+  /*--------------------------------------
+   Scroll CRUD operations
+  --------------------------------------*/
+
+  app.post('/scroll', app.restrict, function(req, res) {
+    this.controllers.scroll.save(req.body, function(err, scroll) {
+      res.send(scroll);
+    });
+  }.bind(app));
+
+  app.put('/scroll/:id', app.restrict, function(req, res) {
+    req.body.id = req.params.id;
+    this.controllers.scroll.save(req.body, function(err) {
+      res.send(err || {success:true});
+    });
+  }.bind(app));
 };

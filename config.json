@@ -1,5 +1,5 @@
 {
-  "view": "scroll-view-default",
+  "view":"scroll-view-default",
   "views": {
     "index": {
       "view":"index"
@@ -11,8 +11,12 @@
       "view":"page"
     }
   },
+  "authentication": {
+    "username":"admin",
+    "password":"changeme"
+  },
   "model": {
-    "module": "scroll-model-memory",
+    "module":"scroll-model-memory",
     "connection":""
   }
 }

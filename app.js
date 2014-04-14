@@ -42,6 +42,10 @@ Scroll.prototype._setup = function() {
   // load the express extentions/shims
   require('./lib/express_ext')(this.app);
 
+  // load some required/common middleware
+  this.app.use(express.json());
+  this.app.use(express.urlencoded());
+
   // set up the view configuration
   var view = this.config.view;
   this.app.use(express.static('./public'));             // application
@@ -53,6 +57,12 @@ Scroll.prototype._setup = function() {
     './views',             // application
     view.path + '/views', // theme
   ]);
+
+  // create a simple middleware for using HTTP basic authenication
+  this.restrict = express.basicAuth(
+    this.config.authentication.username,
+    this.config.authentication.password
+  );
 };
 
 /**
