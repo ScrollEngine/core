@@ -106,7 +106,13 @@ Scroll.prototype.start = function(port, callback) {
   // add the server routes
   require('./routes/routes')(this);
 
-  this.app.listen(port, null, null, callback);
+  this.app.listen(port, null, null, function() {
+    console.log('Scroll Server listening on port %s', port);
+
+    if(typeof callback === 'function') {
+      callback();
+    }
+  });
 };
 
 /**
