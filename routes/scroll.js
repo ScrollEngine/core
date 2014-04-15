@@ -6,20 +6,20 @@ module.exports = function(app) {
   var config = app.config.views;
 
   // post-type scrolls
-  app.get('/post/:slug', (config.post.handler || function(req, res) {
+  app.get('/post/:slug', function(req, res) {
     this.controllers.scroll.findOne('post', req.params.slug,
       function(err, scroll) {
         res.render(config.post.view, {post:scroll});
       });
-  }).bind(app));
+  }, 'post');
 
   // page-type scrolls
-  app.get('/:page', (config.page.handler || function(req, res) {
+  app.get('/:page', function(req, res) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
         res.render(config.page.view, {page:scroll});
       });
-  }).bind(app));
+  }, 'page');
 
   /*--------------------------------------
    Scroll CRUD operations

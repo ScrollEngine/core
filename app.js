@@ -16,7 +16,6 @@ var Scroll = function(config) {
 
   // a few proxies for convenience
   this.post = this.app.post.bind(this.app);
-  this.get = this.app.get.bind(this.app);
   this.put = this.app.put.bind(this.app);
   this.delete = this.app.delete.bind(this.app);
 
@@ -31,6 +30,50 @@ var Scroll = function(config) {
 
   // initialize the server
   this._setup();
+};
+
+/**
+ * Convenience function to add a GET route to the server, which binds the
+ * handler to the server and checks for a view override.
+ * @memberof Scroll
+ * @param route {string} - The route definition.
+ * @param [middleware] {mixed} - The express-compatible middleware to use
+ * with the route.
+ * @param handler {function(req, res)} - The handler for the route.
+ * @param [view] {string} - The view used for the route. Used to allow
+ * views and applications to override the route handler.
+ */
+Scroll.prototype.get = function(route, middleware, handler, view) {
+  var hasMiddleware = false;
+
+  // if a middleware and a handler is provided
+  if(typeof middleware === 'function' && typeof handler === 'function') {
+    hasMiddleware = true;
+  }
+
+  // if only a route and handler were provided
+  if(typeof middleware === 'function' && typeof handler === 'undefined') {
+    handler = middleware;
+  }
+
+  // if a handler and a view is provided
+  if(typeof middleware === 'function' && typeof handler === 'string') {
+    view = handler;
+    handler = middleware;
+  }
+
+  // check if the handler for the view has been overridden
+  if(view && this.config.views.hasOwnProperty(view)) {
+    handler = this.config.views[view].handler || handler;
+  }
+
+  handler = handler.bind(this);
+
+  if(hasMiddleware) {
+    this.app.get(route, middleware, handler);
+  } else {
+    this.app.get(route, handler);
+  }
 };
 
 /**
