@@ -37,4 +37,10 @@ module.exports = function(app) {
       res.send(err || {success:true});
     });
   }.bind(app));
+
+  app.delete('/scroll/:id', app.restrict, function(req, res) {
+    this.controllers.scroll.remove(req.params.id, function(err) {
+      res.send(err || {success:true});
+    });
+  }.bind(app));
 };

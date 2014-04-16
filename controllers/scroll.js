@@ -64,10 +64,21 @@ module.exports = function(model, parse) {
     model.create(scroll, callback);
   };
 
+  /**
+   * Deletes a scroll.
+   * @param sid {string} - The id of the scroll to remove.
+   * @param callback {function(err)} - The callback that is called when
+   * a reponse is recieved.
+   */
+  var remove = function(sid, callback) {
+    model.delete(sid, callback);
+  };
+
   // return the accessors
   return {
     findOne: findOne,
     find: find,
-    save: save
+    save: save,
+    remove: remove
   };
 };
