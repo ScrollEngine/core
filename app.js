@@ -14,10 +14,14 @@ var Scroll = function(config) {
   this.config = util.extend(require('./config'), (config || {}));
   this.app = express();
 
+  // convenience access to the router object
+  this.Router = express.Router;
+
   // a few proxies for convenience
   this.post = this.app.post.bind(this.app);
   this.put = this.app.put.bind(this.app);
   this.delete = this.app.delete.bind(this.app);
+  this.use = this.app.use.bind(this.app);
 
   // set up the scroll body parsing
   this.parse = config.parse || this.parse;
@@ -86,8 +90,7 @@ Scroll.prototype._setup = function() {
   require('./lib/express_ext')(this.app);
 
   // load some required/common middleware
-  this.app.use(express.json());
-  this.app.use(express.urlencoded());
+  this.app.use(require('body-parser')());
 
   // set up the view configuration
   var view = this.config.view;
@@ -102,10 +105,20 @@ Scroll.prototype._setup = function() {
   ]);
 
   // create a simple middleware for using HTTP basic authenication
-  this.restrict = express.basicAuth(
-    this.config.authentication.username,
-    this.config.authentication.password
-  );
+  var auth = require('basic-auth');
+  this.restrict = function(req, res, next) {
+    var credentials = auth(req);
+
+    if(!credentials ||
+      credentials.name !== this.username ||
+      credentials.pass !== this.password)
+    {
+      res.send('Unauthorized');
+    }
+    else {
+      next();
+    }
+  }.bind(this.config.authentication);
 };
 
 /**

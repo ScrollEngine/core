@@ -22,25 +22,27 @@ module.exports = function(app) {
   }, 'page');
 
   /*--------------------------------------
-   Scroll CRUD operations
+   Scroll data CRUD operations
   --------------------------------------*/
+  var crud = new app.Router();
+  crud.use(app.restrict);
 
-  app.post('/scroll', app.restrict, function(req, res) {
-    this.controllers.scroll.save(req.body, function(err, scroll) {
-      res.send(scroll);
-    });
-  }.bind(app));
+  crud.post('/', function(req, res) {
+      this.controllers.scroll.save(req.body, function(err, scroll) {
+        res.send(scroll);
+      });
+    }.bind(app))
+    .put('/:id', app.restrict, function(req, res) {
+      req.body.id = req.params.id;
+      this.controllers.scroll.save(req.body, function(err) {
+        res.send(err || {success:true});
+      });
+    }.bind(app))
+    .delete('/:id', app.restrict, function(req, res) {
+      this.controllers.scroll.remove(req.params.id, function(err) {
+        res.send(err || {success:true});
+      });
+    }.bind(app));
 
-  app.put('/scroll/:id', app.restrict, function(req, res) {
-    req.body.id = req.params.id;
-    this.controllers.scroll.save(req.body, function(err) {
-      res.send(err || {success:true});
-    });
-  }.bind(app));
-
-  app.delete('/scroll/:id', app.restrict, function(req, res) {
-    this.controllers.scroll.remove(req.params.id, function(err) {
-      res.send(err || {success:true});
-    });
-  }.bind(app));
+  app.use('/scroll', crud);
 };
