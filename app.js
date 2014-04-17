@@ -1,6 +1,7 @@
 var util = require('./lib/util'),
     config = require('./config'),
     express = require('express'),
+    passport = require('passport'),
     async = require('async'),
     marked = require('marked');
 
@@ -91,6 +92,7 @@ Scroll.prototype._setup = function() {
 
   // load some required/common middleware
   this.app.use(require('body-parser')());
+  this.app.use(passport.initialize());
 
   // set up the view configuration
   var view = this.config.view;
@@ -104,21 +106,18 @@ Scroll.prototype._setup = function() {
     view.path + '/views', // theme
   ]);
 
-  // create a simple middleware for using HTTP basic authenication
-  var auth = require('basic-auth');
-  this.restrict = function(req, res, next) {
-    var credentials = auth(req);
 
-    if(!credentials ||
-      credentials.name !== this.username ||
-      credentials.pass !== this.password)
-    {
-      res.send('Unauthorized');
-    }
-    else {
-      next();
-    }
-  }.bind(this.config.authentication);
+  // set up passport to use basic auth
+  var DigestStrategy = require('passport-http').DigestStrategy;
+
+  passport.use(new DigestStrategy({qop:'auth'},
+    function(username, done) {
+      done(null, this, this.password);
+    }.bind(this.config.authentication)
+  ));
+
+  // convenience for passport digest authentication
+  this.restrict = passport.authenticate('digest', {session:false});
 };
 
 /**
