@@ -13,6 +13,26 @@ module.exports = function(app) {
       });
   }, 'post');
 
+  // edit a page-type scrolls
+  app.get('/post/:slug/edit', app.restrict, function(req, res) {
+    this.controllers.scroll.findOne('post', req.params.slug,
+      function(err, scroll) {
+        res.render(config.edit.view, {
+          scroll: (scroll || {slug:req.params.page})
+        });
+      });
+  }, 'edit');
+
+  // edit a page-type scrolls
+  app.get('/:page/edit', app.restrict, function(req, res) {
+    this.controllers.scroll.findOne('page', req.params.page,
+      function(err, scroll) {
+        res.render(config.edit.view, {
+          scroll: (scroll || {slug:req.params.page})
+        });
+      });
+  }, 'edit');
+
   // page-type scrolls
   app.get('/:page', function(req, res) {
     this.controllers.scroll.findOne('page', req.params.page,

@@ -9,6 +9,9 @@
     },
     "page": {
       "view":"page"
+    },
+    "edit": {
+      "view": "edit"
     }
   },
   "authentication": {
