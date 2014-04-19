@@ -9,7 +9,7 @@ module.exports = function(app) {
   app.get('/post/:slug', function(req, res) {
     this.controllers.scroll.findOne('post', req.params.slug,
       function(err, scroll) {
-        res.render(config.post.view, {post:scroll});
+        res.render(config.post.view, {view:'post',post:scroll});
       });
   }, 'post');
 
@@ -18,6 +18,7 @@ module.exports = function(app) {
     this.controllers.scroll.findOne('post', req.params.slug,
       function(err, scroll) {
         res.render(config.edit.view, {
+          view:'edit',
           scroll: (scroll || {slug:req.params.slug,type:'post'})
         });
       });
@@ -28,6 +29,7 @@ module.exports = function(app) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
         res.render(config.edit.view, {
+          view:'edit',
           scroll: (scroll || {slug:req.params.page,type:'page'})
         });
       });
@@ -37,7 +39,7 @@ module.exports = function(app) {
   app.get('/:page', function(req, res) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
-        res.render(config.page.view, {page:scroll});
+        res.render(config.page.view, {view:'page',page:scroll});
       });
   }, 'page');
 
