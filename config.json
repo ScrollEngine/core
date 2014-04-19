@@ -1,4 +1,5 @@
 {
+  "favicon": "",
   "view":"scroll-view-default",
   "views": {
     "index": {

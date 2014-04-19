@@ -90,6 +90,8 @@ Scroll.prototype._setup = function() {
   // load the express extentions/shims
   require('./lib/express_ext')(this.app);
 
+  this.app.use(require('static-favicon')(this.config.favicon));
+
   // load some required/common middleware
   this.app.use(require('body-parser')());
   this.app.use(passport.initialize());
