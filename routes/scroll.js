@@ -18,7 +18,7 @@ module.exports = function(app) {
     this.controllers.scroll.findOne('post', req.params.slug,
       function(err, scroll) {
         res.render(config.edit.view, {
-          scroll: (scroll || {slug:req.params.page})
+          scroll: (scroll || {slug:req.params.slug,type:'post'})
         });
       });
   }, 'edit');
@@ -28,7 +28,7 @@ module.exports = function(app) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
         res.render(config.edit.view, {
-          scroll: (scroll || {slug:req.params.page})
+          scroll: (scroll || {slug:req.params.page,type:'page'})
         });
       });
   }, 'edit');
