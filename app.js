@@ -110,16 +110,16 @@ Scroll.prototype._setup = function() {
 
 
   // set up passport to use basic auth
-  var DigestStrategy = require('passport-http').DigestStrategy;
+  var BasicStrategy = require('passport-http').BasicStrategy;
 
-  passport.use(new DigestStrategy({qop:'auth'},
-    function(username, done) {
-      done(null, this, this.password);
+  passport.use(new BasicStrategy(
+    function(username, password, done) {
+      done(null, (username === this.username && password === this.password));
     }.bind(this.config.authentication)
   ));
 
   // convenience for passport digest authentication
-  this.restrict = passport.authenticate('digest', {session:false});
+  this.restrict = passport.authenticate('basic', {session:false});
 };
 
 /**
