@@ -23,6 +23,7 @@ var Scroll = function(config) {
   this.put = this.app.put.bind(this.app);
   this.delete = this.app.delete.bind(this.app);
   this.use = this.app.use.bind(this.app);
+  this.locals = this.app.locals;
 
   // set up the scroll body parsing
   this.parse = config.parse || this.parse;
