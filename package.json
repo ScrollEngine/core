@@ -23,6 +23,8 @@
     "passport-http": "^0.2.2",
     "static-favicon": "^1.0.2",
     "async": "^0.6.2",
-    "marked": "^0.3.2"
+    "marked": "^0.3.2",
+    "scroll-model-memory": "git+ssh://git@github.com:ScrollEngine/model-memory.git",
+    "scroll-view-default": "git+ssh://git@github.com:ScrollEngine/view-simple.git"
   }
 }
