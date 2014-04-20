@@ -134,7 +134,7 @@ Scroll.prototype._loadView = function() {
       path: __dirname + '/node_modules/' + this.config.view
     };
 
-    var view = require(this.config.view.module)(this.config);
+    var view = require(this.config.view.module)(this);
     for(var p in view) {
       this.config.view[p] = view[p];
     }
