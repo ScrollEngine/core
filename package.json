@@ -1,21 +1,21 @@
 {
   "name": "scroll-core",
-  "version": "0.0.1",
-  "description": "Simple CMS",
+  "version": "0.1.0-alpha",
+  "description": "Simple blog engine and CMS",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/scrollcms/core.git"
+    "url": "git://github.com/scrollengine/core.git"
   },
   "author": "Scroll Team",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/scrollcms/core/issues"
+    "url": "https://github.com/scrollengine/core/issues"
   },
-  "homepage": "https://github.com/scrollcms/core",
+  "homepage": "https://github.com/scrollengine/core",
   "dependencies": {
     "express": "^4.0.0",
     "body-parser": "^1.0.2",
@@ -26,5 +26,12 @@
     "marked": "^0.3.2",
     "scroll-model-memory": "git+ssh://git@github.com:ScrollEngine/model-memory.git",
     "scroll-view-simple": "git+ssh://git@github.com:ScrollEngine/view-simple.git"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [
+    "blog",
+    "cms",
+    "engine",
+    "server"
+  ]
 }
