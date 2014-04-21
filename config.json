@@ -1,7 +1,7 @@
 {
   "favicon": "",
   "view": {
-    "module":"scroll-view-default"
+    "module":"scroll-view-simple"
   },
   "views": {
     "index": {
