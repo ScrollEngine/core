@@ -131,15 +131,21 @@ Scroll.prototype._setup = function() {
 Scroll.prototype._loadView = function() {
   if(typeof this.config.view === 'string') {
     this.config.view = {
-      module: this.config.view,
-      path: __dirname + '/node_modules/' + this.config.view
+      module: this.config.view
     };
-
-    var view = require(this.config.view.module)(this);
-    for(var p in view) {
-      this.config.view[p] = view[p];
-    }
   }
+
+  if(!this.config.view.hasOwnProperty('module')) {
+    throw 'No view layer found.';
+  }
+
+  this.config.view.path = __dirname +
+    '/node_modules/' + this.config.view.module;
+
+  this.config.view = util.extend(
+    this.config.view,
+    require(this.config.view.module)(this)
+  );
 };
 
 /**
