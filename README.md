@@ -3,7 +3,7 @@ This is a quick start guide to using and understanding Scroll. It is encouraged 
 
 ## Installing
 
-`npm install scroll-core`
+`npm install git+ssh://git@github.com:ScrollEngine/core.git --save`
 
 ## Usage
 
@@ -13,6 +13,23 @@ var scroll = require('scroll-core'),
 
 app.start(8181);
 ```
+### Routes
+When you first start up your Scroll site you will see an index page. Scroll Core defines a few basic routes out of the box that are common to blogs/CMS powered sites. Its important to remember its up to the view layer to implement the views and apply a style and functionality to these pages.
+
+#### /
+Index or home page.
+
+#### /[page]
+A static page, such as /about or /archive
+
+#### /[page]/edit
+Creates or edits a page.
+
+#### /post/[slug]
+An article, typcially displayed differently than a static page.
+
+#### /post/[slug]/edit
+Creates or edits a particular post.
 
 ## Layers
 Scroll follows an MVC design, which provides the benefit of separating data from buisness logic from the interface used to interact with each. Scroll Core can be thought of as the controller layer, but also provides a base server and glues the model and view layers together.
