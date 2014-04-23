@@ -8,7 +8,7 @@ module.exports = function(app) {
   app.get('/', function(req, res) {
     var options = {order:{field:'created',desc:true},limit:5};
     this.controllers.scroll.find('post', options, function(err, posts) {
-      res.render(config.index.view, {view:'index',posts:posts});
+      app.render(res, 'index', {posts:posts});
     });
   }, 'index');
 

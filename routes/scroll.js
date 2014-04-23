@@ -9,7 +9,7 @@ module.exports = function(app) {
   app.get('/post/:slug', function(req, res) {
     this.controllers.scroll.findOne('post', req.params.slug,
       function(err, scroll) {
-        res.render(config.post.view, {view:'post',post:scroll});
+        app.render(res, 'post', {post:scroll});
       });
   }, 'post');
 
@@ -17,8 +17,7 @@ module.exports = function(app) {
   app.get('/post/:slug/edit', app.restrict, function(req, res) {
     this.controllers.scroll.findOne('post', req.params.slug,
       function(err, scroll) {
-        res.render(config.edit.view, {
-          view:'edit',
+        app.render(res, 'edit', {
           scroll: (scroll || {slug:req.params.slug,type:'post'})
         });
       });
@@ -28,8 +27,7 @@ module.exports = function(app) {
   app.get('/:page/edit', app.restrict, function(req, res) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
-        res.render(config.edit.view, {
-          view:'edit',
+        app.render(res, 'edit', {
           scroll: (scroll || {slug:req.params.page,type:'page'})
         });
       });
@@ -39,7 +37,7 @@ module.exports = function(app) {
   app.get('/:page', function(req, res) {
     this.controllers.scroll.findOne('page', req.params.page,
       function(err, scroll) {
-        res.render(config.page.view, {view:'page',page:scroll});
+        app.render(res, 'page', {page:scroll});
       });
   }, 'page');
 

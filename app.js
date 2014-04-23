@@ -160,6 +160,18 @@ Scroll.prototype.parse = function(scroll) {
 };
 
 /**
+ * Helper that renders a view, but passes the view config along with the
+ * base data to the view.
+ * @param res {object} - The response object from the route handler.
+ * @param view {string} - The name of the view to render.
+ * @param data {object} - The data to pass along with the view configuration.
+ */
+Scroll.prototype.render = function(res, view, data) {
+  var config = this.config.views[view];
+  res.render(config.view, util.extend(config, data));
+};
+
+/**
  * Starts the Scroll server.
  * @memberof Scroll
  * @param port - The port the server should listen on.
