@@ -70,6 +70,11 @@ Scroll.prototype.get = function(route, middleware, handler, view) {
 
   // check if the handler for the view has been overridden
   if(view && this.config.views.hasOwnProperty(view)) {
+    // allows the configuration to prevent adding a view-based route
+    if(this.config.views[view].override) {
+      return;
+    }
+
     handler = this.config.views[view].handler || handler;
   }
 
