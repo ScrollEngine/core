@@ -88,6 +88,15 @@ Scroll.prototype.get = function(route, middleware, handler, view) {
 };
 
 /**
+ * Loads and returns a plugin
+ * @memberof Scroll
+ * @param name {string} - The node module name of the plugin to load.
+ */
+Scroll.prototype.plugin = function(name) {
+  return require(name)(this);
+};
+
+/**
  * Initializes the server.
  * @memberof Scroll
  * @private
