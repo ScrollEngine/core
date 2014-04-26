@@ -1,28 +1,28 @@
 {
   "favicon": "",
   "view": {
-    "module":"scroll-view-simple"
-  },
-  "views": {
-    "index": {
-      "view":"index"
-    },
-    "post": {
-      "view":"post"
-    },
-    "page": {
-      "view":"page"
-    },
-    "edit": {
-      "view": "edit"
+    "module":"scroll-view-simple",
+    "views": {
+      "index": {
+        "view":"index"
+      },
+      "post": {
+        "view":"post"
+      },
+      "page": {
+        "view":"page"
+      },
+      "edit": {
+        "view": "edit"
+      }
     }
-  },
-  "authentication": {
-    "username":"admin",
-    "password":"changeme"
   },
   "model": {
     "module":"scroll-model-memory",
     "connection":""
+  },
+  "authentication": {
+    "username":"admin",
+    "password":"changeme"
   }
 }

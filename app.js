@@ -69,13 +69,13 @@ Scroll.prototype.get = function(route, middleware, handler, view) {
   }
 
   // check if the handler for the view has been overridden
-  if(view && this.config.views.hasOwnProperty(view)) {
+  if(view && this.config.view.views.hasOwnProperty(view)) {
     // allows the configuration to prevent adding a view-based route
-    if(this.config.views[view].override) {
+    if(this.config.view.views[view].override) {
       return;
     }
 
-    handler = this.config.views[view].handler || handler;
+    handler = this.config.view.views[view].handler || handler;
   }
 
   handler = handler.bind(this);
@@ -143,12 +143,6 @@ Scroll.prototype._setup = function() {
  * @private
  */
 Scroll.prototype._loadView = function() {
-  if(typeof this.config.view === 'string') {
-    this.config.view = {
-      module: this.config.view
-    };
-  }
-
   if(!this.config.view.hasOwnProperty('module')) {
     throw 'No view layer found.';
   }
@@ -181,7 +175,7 @@ Scroll.prototype.parse = function(scroll) {
  * @param data {object} - The data to pass along with the view configuration.
  */
 Scroll.prototype.render = function(res, view, data) {
-  var config = this.config.views[view];
+  var config = this.config.view.views[view];
   res.render(config.view, util.extend(config, data));
 };
 
