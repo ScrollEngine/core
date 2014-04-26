@@ -6,13 +6,73 @@ var util = require('./lib/util'),
     marked = require('marked');
 
 /**
+ * Loads in the configuration then extends and updates it based on the view
+ * and application overrides.d
+ * @private
+ */
+var configure = function(config) {
+  this.config = util.extend(require('./config'), (config || {}));
+
+  if(!this.config.view.hasOwnProperty('module')) {
+    throw 'No view layer found.';
+  }
+
+  this.config.view.path = __dirname +
+    '/node_modules/' + this.config.view.module;
+
+  this.config.view = util.extend(
+    this.config.view,
+    require(this.config.view.module)(this)
+  );
+};
+
+/**
+ * Initializes the server.
+ * @private
+ */
+var initialize = function() {
+  // load the express extentions/shims
+  require('./lib/express_ext')(this.app);
+
+  this.app.use(require('static-favicon')(this.config.favicon));
+
+  // load some required/common middleware
+  this.app.use(require('body-parser')());
+  this.app.use(passport.initialize());
+
+  // set up the view configuration
+  var view = this.config.view;
+  this.app.use(express.static('./public'));             // application
+  this.app.use(express.static(view.path + '/public')); // theme
+
+  this.app.engine(view.ext, view.engine);
+  this.app.set('view engine', view.ext);
+  this.app.set('views', [
+    './views',             // application
+    view.path + '/views', // theme
+  ]);
+
+  // set up passport to use basic auth
+  var BasicStrategy = require('passport-http').BasicStrategy;
+
+  passport.use(new BasicStrategy(
+    function(username, password, done) {
+      done(null, (username === this.username && password === this.password));
+    }.bind(this.config.authentication)
+  ));
+
+  // convenience for passport digest authentication
+  this.restrict = passport.authenticate('basic', {session:false});
+};
+
+/**
  * Scroll Core Class
  * @class
  * @name Scroll
  * @param [config] {object} - base configuration for the Scroll server.
  */
 var Scroll = function(config) {
-  this.config = util.extend(require('./config'), (config || {}));
+  // express applicaiton
   this.app = express();
 
   // convenience access to the router object
@@ -28,14 +88,14 @@ var Scroll = function(config) {
   // set up the scroll body parsing
   this.parse = config.parse || this.parse;
 
+  // configure the applicaiton
+  configure.call(this, config);
+
   // loads the controllers
   this.controllers = require('./controllers/controllers')(this);
 
-  // load the view layer
-  this._loadView();
-
   // initialize the server
-  this._setup();
+  initialize.call(this);
 };
 
 /**
@@ -94,66 +154,6 @@ Scroll.prototype.get = function(route, middleware, handler, view) {
  */
 Scroll.prototype.plugin = function(name) {
   return require(name)(this);
-};
-
-/**
- * Initializes the server.
- * @memberof Scroll
- * @private
- */
-Scroll.prototype._setup = function() {
-  // load the express extentions/shims
-  require('./lib/express_ext')(this.app);
-
-  this.app.use(require('static-favicon')(this.config.favicon));
-
-  // load some required/common middleware
-  this.app.use(require('body-parser')());
-  this.app.use(passport.initialize());
-
-  // set up the view configuration
-  var view = this.config.view;
-  this.app.use(express.static('./public'));             // application
-  this.app.use(express.static(view.path + '/public')); // theme
-
-  this.app.engine(view.ext, view.engine);
-  this.app.set('view engine', view.ext);
-  this.app.set('views', [
-    './views',             // application
-    view.path + '/views', // theme
-  ]);
-
-
-  // set up passport to use basic auth
-  var BasicStrategy = require('passport-http').BasicStrategy;
-
-  passport.use(new BasicStrategy(
-    function(username, password, done) {
-      done(null, (username === this.username && password === this.password));
-    }.bind(this.config.authentication)
-  ));
-
-  // convenience for passport digest authentication
-  this.restrict = passport.authenticate('basic', {session:false});
-};
-
-/**
- * Loads in the view layer and sets up the view configuration.
- * @memberof Scroll
- * @private
- */
-Scroll.prototype._loadView = function() {
-  if(!this.config.view.hasOwnProperty('module')) {
-    throw 'No view layer found.';
-  }
-
-  this.config.view.path = __dirname +
-    '/node_modules/' + this.config.view.module;
-
-  this.config.view = util.extend(
-    this.config.view,
-    require(this.config.view.module)(this)
-  );
 };
 
 /**
