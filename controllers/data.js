@@ -4,7 +4,15 @@
  */
 module.exports = function(app) {
   // load the model layer module
-  var data = require(app.config.model.module);
+  var data = require(app.config.model.module),
+      appModels = app.util.getJSFiles(
+        app.config.__path + '/' + app.config.model.folder);
+
+  var model = null;
+  for(var m in appModels) {
+    model = require(appModels[m]);
+    data.load(model.name || m, model);
+  }
 
   data.connect(app.config.model.connection,
     function() {

@@ -19,7 +19,8 @@
   },
   "model": {
     "module":"scroll-model-memory",
-    "connection":""
+    "connection":"",
+    "folder": "models"
   },
   "authentication": {
     "username":"admin",

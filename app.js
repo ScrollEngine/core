@@ -12,6 +12,9 @@ var config = require('./config'),
 var configure = function(config) {
   this.config = this.util.extend(require('./config'), (config || {}));
 
+  // base application path
+  this.config.__path = process.cwd();
+
   if(!this.config.view.hasOwnProperty('module')) {
     throw 'No view layer found.';
   }
