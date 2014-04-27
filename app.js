@@ -1,5 +1,4 @@
-var util = require('./lib/util'),
-    config = require('./config'),
+var config = require('./config'),
     express = require('express'),
     passport = require('passport'),
     async = require('async'),
@@ -11,7 +10,7 @@ var util = require('./lib/util'),
  * @private
  */
 var configure = function(config) {
-  this.config = util.extend(require('./config'), (config || {}));
+  this.config = this.util.extend(require('./config'), (config || {}));
 
   if(!this.config.view.hasOwnProperty('module')) {
     throw 'No view layer found.';
@@ -20,7 +19,7 @@ var configure = function(config) {
   this.config.view.path = __dirname +
     '/node_modules/' + this.config.view.module;
 
-  this.config.view = util.extend(
+  this.config.view = this.util.extend(
     this.config.view,
     require(this.config.view.module)(this)
   );
@@ -72,6 +71,9 @@ var initialize = function() {
  * @param [config] {object} - base configuration for the Scroll server.
  */
 var Scroll = function(config) {
+  // utilities
+  this.util = require('./lib/util');
+
   // express applicaiton
   this.app = express();
 
@@ -176,7 +178,7 @@ Scroll.prototype.parse = function(scroll) {
  */
 Scroll.prototype.render = function(res, view, data) {
   var config = this.config.view.views[view];
-  res.render(config.view, util.extend(config, data));
+  res.render(config.view, this.util.extend(config, data));
 };
 
 /**
