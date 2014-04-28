@@ -22,14 +22,8 @@ Index or home page.
 #### /[page]
 A static page, such as /about or /archive
 
-#### /[page]/edit
-Creates or edits a page.
-
 #### /post/[slug]
 An article, typcially displayed differently than a static page.
-
-#### /post/[slug]/edit
-Creates or edits a particular post.
 
 ## Layers
 Scroll follows an MVC design, which provides the benefit of separating data from buisness logic from the interface used to interact with each. Scroll Core can be thought of as the controller layer, but also provides a base server and glues the model and view layers together.
