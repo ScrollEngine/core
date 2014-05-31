@@ -1,4 +1,5 @@
-var config = require('./config'),
+var fs = require('fs'),
+    path = require('path'),
     express = require('express'),
     passport = require('passport'),
     async = require('async'),
@@ -10,8 +11,15 @@ var config = require('./config'),
  * @private
  */
 var configure = function(config) {
-  this.config = this.util.extend(
-    require(__dirname + '/config'), (config || {}));
+  // load and extend the various config files
+  this.config = require(__dirname + '/config');
+
+  var appConfig = path.resolve('./config.json');
+  if(fs.existsSync(appConfig)) {
+    this.config = this.util.extend(this.config, require(appConfig));
+  }
+
+  this.config = this.util.extend(this.config, (config || {}));
 
   // base application path
   this.config.__path = process.cwd();
