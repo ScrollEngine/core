@@ -10,7 +10,8 @@ var config = require('./config'),
  * @private
  */
 var configure = function(config) {
-  this.config = this.util.extend(require('./config'), (config || {}));
+  this.config = this.util.extend(
+    require(__dirname + '/config'), (config || {}));
 
   // base application path
   this.config.__path = process.cwd();
@@ -90,8 +91,12 @@ var Scroll = function(config) {
   this.use = this.app.use.bind(this.app);
   this.locals = this.app.locals;
 
-  // set up the scroll body parsing
-  this.parse = config.parse || this.parse;
+  // set up a few options
+  if(typeof config === 'object') {
+    // set up the scroll body parsing
+    this.parse = config.parse || this.parse;
+  }
+
 
   // configure the applicaiton
   configure.call(this, config);
