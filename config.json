@@ -1,5 +1,10 @@
 {
   "favicon": "",
+  "routes": {
+    "page": true,
+    "post": true,
+    "scroll": true
+  },
   "view": {
     "module":"scroll-view-simple",
     "views": {
