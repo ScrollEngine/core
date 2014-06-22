@@ -51,17 +51,20 @@ var initialize = function() {
   this.app.use(require('body-parser')());
   this.app.use(passport.initialize());
 
-  // set up the view configuration
+  // set up the paths for static files
   var view = this.config.view;
   this.app.use(express.static('./public'));             // application
   this.app.use(express.static(view.path + '/public')); // theme
-  
-  this.app.engine(view.ext, view.engine);
-  this.app.set('view engine', view.ext);
-  this.app.set('views', [
-    './views',             // application
-    view.path + '/views', // theme
-  ]);
+
+  // set up the view engine, if any
+  if(typeof view.engine !== 'undefined' && view.engine !== null) {
+    this.app.engine(view.ext, view.engine);
+    this.app.set('view engine', view.ext);
+    this.app.set('views', [
+      './views',             // application
+      view.path + '/views', // theme
+    ]);
+  }
 
   // set up passport to use basic auth
   var BasicStrategy = require('passport-http').BasicStrategy;
