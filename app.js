@@ -31,7 +31,7 @@ var configure = function(config) {
   this.config.view.path = __dirname +
     '/node_modules/' + this.config.view.module;
 
-  this.config.view = this.util.extend(
+  this.config.view = app.view = this.util.extend(
     this.config.view,
     require(this.config.view.module)(this)
   );
@@ -55,7 +55,7 @@ var initialize = function() {
   var view = this.config.view;
   this.app.use(express.static('./public'));             // application
   this.app.use(express.static(view.path + '/public')); // theme
-
+  
   this.app.engine(view.ext, view.engine);
   this.app.set('view engine', view.ext);
   this.app.set('views', [
