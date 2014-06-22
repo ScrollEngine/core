@@ -40,6 +40,9 @@ var configure = function(config) {
     this.config.view,
     require(this.config.view.module)(this)
   );
+
+  // print engine info
+  console.log(this.info());
 };
 
 /**
@@ -125,6 +128,29 @@ var Scroll = function(config) {
 
   // initialize the server
   initialize.call(this);
+};
+
+/**
+ * Returns a nice string of basic infomation of the scroll instance.
+ * @memberof Scroll
+ */
+Scroll.prototype.info = function() {
+  var infoText = '';
+
+  infoText += ' _______________________________\n';
+  infoText += '/  _\\                           \\\n';
+  infoText += '\\ (_/___________________________/\n';
+  infoText += ' \\       ___             _ _   \\\n';
+  infoText += '  \\     / __| __ _ _ ___| | |   \\\n';
+  infoText += '   \\    \\__ \\/ _| \'_/ _ \\ | |    \\\n';
+  infoText += '  __\\   |___/\\__|_| \\___/_|_|     \\\n';
+  infoText += ' / )_\\  Engine                     \\\n';
+  infoText += ' \\___/_____________________________/\n';
+  infoText += ' Version ' + this.config.__version + '\n';
+  infoText += ' Model Module: ' + this.config.model.module + '\n';
+  infoText += ' View Module: ' + this.config.view.module + '\n';
+
+  return infoText;
 };
 
 /**
@@ -216,6 +242,7 @@ Scroll.prototype.render = function(res, view, data) {
  * started.
  */
 Scroll.prototype.start = function(port, callback) {
+
   // add the server routes
   require('./routes/routes')(this);
 
