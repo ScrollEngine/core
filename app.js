@@ -17,6 +17,9 @@ var configure = function(config) {
   // base application path
   this.config.__path = process.cwd();
 
+  // core version
+  this.config.__version = require(__dirname + '/package.json').version;
+
   // load the applicaiton config
   var appConfig = path.resolve('./config.json');
   if(fs.existsSync(appConfig)) {
