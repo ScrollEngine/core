@@ -149,6 +149,7 @@ Scroll.prototype.info = function() {
   infoText += ' Version ' + this.config.__version + '\n';
   infoText += ' Model Module: ' + this.config.model.module + '\n';
   infoText += ' View Module: ' + this.config.view.module + '\n';
+  infoText += ' Environment: ' + (process.env.NODE_ENV || 'Not Set') + '\n';
 
   return infoText;
 };
@@ -237,17 +238,27 @@ Scroll.prototype.render = function(res, view, data) {
 /**
  * Starts the Scroll server.
  * @memberof Scroll
- * @param port - The port the server should listen on.
- * @param callback {startCallback} - Callback called when the server has
+ * @param [port] {number} - The port the server should listen on.
+ * @param [callback] {startCallback} - Callback called when the server has
  * started.
  */
 Scroll.prototype.start = function(port, callback) {
 
+  // check the port passed in
+  var listenTo = port;
+  if(typeof port !== 'number') {
+    if(typeof port === 'function') {
+      callback = port;
+    }
+
+    listenTo = process.env.PORT || 8181;
+  }
+
   // add the server routes
   require('./routes/routes')(this);
 
-  this.app.listen(port, null, null, function() {
-    console.log('Scroll Server listening on port %s', port);
+  this.app.listen(listenTo, null, null, function() {
+    console.log('Scroll Server listening on port %s', listenTo);
 
     if(typeof callback === 'function') {
       callback();
