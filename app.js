@@ -155,6 +155,14 @@ Scroll.prototype.info = function() {
 };
 
 /**
+ * Returns the number of miliseconds since the server was started.
+ * @memberof Scroll
+ */
+Scroll.prototype.uptime = function() {
+  return Date.now() - this.__started;
+};
+
+/**
  * Convenience function to add a GET route to the server, which binds the
  * handler to the server and checks for a view override.
  * @memberof Scroll
@@ -258,12 +266,14 @@ Scroll.prototype.start = function(port, callback) {
   require('./routes/routes')(this);
 
   this.app.listen(listenTo, null, null, function() {
+    this.__started = Date.now();
+
     console.log('Scroll Server listening on port %s', listenTo);
 
     if(typeof callback === 'function') {
       callback();
     }
-  });
+  }.bind(this));
 };
 
 /**
