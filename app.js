@@ -11,9 +11,13 @@ var fs = require('fs'),
  * @private
  */
 var configure = function(config) {
-  // load and extend the various config files
+  // load the default/base config
   this.config = require(__dirname + '/config');
 
+  // base application path
+  this.config.__path = process.cwd();
+
+  // load the applicaiton config
   var appConfig = path.resolve('./config.json');
   if(fs.existsSync(appConfig)) {
     this.config = this.util.extend(this.config, require(appConfig));
@@ -21,9 +25,7 @@ var configure = function(config) {
 
   this.config = this.util.extend(this.config, (config || {}));
 
-  // base application path
-  this.config.__path = process.cwd();
-
+  // load the view
   if(!this.config.view.hasOwnProperty('module')) {
     throw 'No view layer found.';
   }
