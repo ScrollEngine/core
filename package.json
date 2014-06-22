@@ -1,6 +1,6 @@
 {
   "name": "scroll-core",
-  "version": "0.1.0-alpha",
+  "version": "0.1.1-alpha",
   "description": "Simple blog engine and CMS",
   "main": "app.js",
   "scripts": {
