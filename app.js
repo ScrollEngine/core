@@ -48,7 +48,10 @@ var initialize = function() {
   this.app.use(require('static-favicon')(this.config.favicon));
 
   // load some required/common middleware
-  this.app.use(require('body-parser')());
+  var bodyParser = require('body-parser');
+
+  this.app.use(bodyParser.urlencoded({extended:true}));
+  this.app.use(bodyParser.json());
   this.app.use(passport.initialize());
 
   // set up the paths for static files
