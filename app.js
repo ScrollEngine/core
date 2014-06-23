@@ -41,6 +41,17 @@ var configure = function(config) {
     require(this.config.view.module)(this)
   );
 
+  // set the logging options if given in the config
+  if(this.config.log) {
+    if(typeof this.config.log.level === 'number') {
+      this.log.level = this.config.log.level;
+    }
+
+    if(typeof this.config.log.color === 'boolean') {
+      this.log.color = this.config.log.color;
+    }
+  }
+
   // print engine info
   console.log(this.info());
 };
@@ -99,6 +110,7 @@ var initialize = function() {
 var Scroll = function(config) {
   // utilities
   this.util = require('./lib/util');
+  this.log = require('./lib/logger');
 
   // express applicaiton
   this.app = express();
@@ -268,7 +280,7 @@ Scroll.prototype.start = function(port, callback) {
   this.app.listen(listenTo, null, null, function() {
     this.__started = Date.now();
 
-    console.log('Scroll Server listening on port %s', listenTo);
+    this.log.info('Scroll Server listening on port ' + listenTo);
 
     if(typeof callback === 'function') {
       callback();

@@ -22,7 +22,7 @@ module.exports = function(app) {
 
   data.connect(app.config.model.connection,
     function() {
-      console.log('Connected to ' + app.config.model.connection);
+      app.log.info('Connected to ' + app.config.model.connection);
     },
     function(err) {
       console.error(err);
