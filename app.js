@@ -131,7 +131,6 @@ var Scroll = function(config) {
     this.parse = config.parse || this.parse;
   }
 
-
   // configure the applicaiton
   configure.call(this, config);
 

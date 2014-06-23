@@ -20,7 +20,7 @@ module.exports = function(app) {
     }
   }
 
-  data.connect(app.config.model.connection,
+  data.connect.call(app, app.config.model.connection,
     function() {
       app.log.info('Connected to ' + app.config.model.connection);
     },
